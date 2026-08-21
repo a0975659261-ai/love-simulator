@@ -85,7 +85,72 @@
       background: #111;
       color: white;
     }
+/* =========================
+   SECRET END 特效
+========================= */
 
+.glitch {
+  animation: glitch 0.15s linear 4;
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+
+  25% {
+    transform: translate(-4px, 2px);
+  }
+
+  50% {
+    transform: translate(4px, -2px);
+  }
+
+  75% {
+    transform: translate(-2px, -2px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
+
+
+.memory-flash {
+  animation: flash 0.5s;
+}
+
+@keyframes flash {
+  0% {
+    background: white;
+    color: black;
+  }
+
+  30% {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  100% {
+    background: #111;
+    color: white;
+  }
+}
+
+
+.secret-button {
+  background: #111;
+  color: white;
+  border: 1px solid white;
+}
+
+
+.remember-button {
+  background: white;
+  color: black;
+  border: 2px solid white;
+  font-weight: bold;
+}
   </style>
 
 </head>
@@ -147,7 +212,7 @@
 
   // 真名先埋在程式裡
   const heroineRealName =
-    "真正名字";
+    "小椿";
 
 
   // =========================
@@ -869,61 +934,423 @@
   }
 
 
-  function secretEnding5() {
+  // =========================
+// SECRET END
+// =========================
+
+function secretEnding1() {
+
+  document.body.classList.add("secret-mode");
+
+  title.textContent = "？？？";
+
+  dialogue.style.background = "#111";
+  dialogue.style.color = "white";
+  dialogue.style.borderColor = "white";
+
+  dialogue.textContent =
+    "隔天放學後。\n\n" +
+    "你來到了學校中庭。\n\n" +
+    "那棵樹就在眼前。\n\n" +
+    "奇怪的是——\n\n" +
+    "明明沒有人告訴你地點，\n" +
+    "你卻知道她說的「那個地方」就是這裡。";
+
+  continueButton(secretEnding2);
+}
+
+
+function secretEnding2() {
+
+  dialogue.textContent =
+    "腳步聲從身後傳來。\n\n" +
+    "那個女人：你真的來了。\n\n" +
+    "你：……嗯。\n\n" +
+    "那個女人：所以你還記得這裡。";
+
+  continueButton(secretEnding3);
+}
+
+
+// =========================
+// 第一次姓名異常
+// =========================
+
+function secretEnding3() {
+
+  dialogue.textContent =
+    "你：我不知道。\n\n" +
+    "那個女人：……\n\n" +
+    "那個女人：那你還記得——";
+
+  dialogue.classList.add("glitch");
+
+  setTimeout(function () {
+
+    dialogue.classList.remove("glitch");
 
     dialogue.textContent =
-      "你幾乎就要叫出那個名字。\n\n" +
+      "你：我不知道。\n\n" +
+      "■■■：……\n\n" +
+      "■■■：那你還記得——";
 
-      "但最後一瞬間，\n" +
-      "記憶再次模糊。\n\n" +
+  }, 600);
 
-      "那個女人：……還是想不起來嗎？\n\n" +
+  continueButton(secretEnding4);
+}
 
-      "你：妳知道？\n\n" +
 
-      "她沉默了很久。";
+function secretEnding4() {
 
+  dialogue.textContent =
+    "■■■：我們第一次在這裡說了什麼嗎？\n\n" +
+    "你看著她。\n\n" +
+    "腦中似乎有什麼東西一閃而過。\n\n" +
+    "但是你抓不住。";
+
+  continueButton(memoryQuestion1);
+}
+
+
+// =========================
+// 記憶問題 1
+// =========================
+
+function memoryQuestion1() {
+
+  title.textContent = "MEMORY CHECK";
+
+  dialogue.textContent =
+    "【記憶資料讀取中……】\n\n" +
+    "問題 01\n\n" +
+    "她叫什麼名字？";
+
+  clearButtons();
+
+  createButton(
+    "那個女人",
+    memoryWrong1
+  );
+
+  createButton(
+    "？？？",
+    memoryWrong1
+  );
+
+  createButton(
+    "■■■",
+    memoryWrong1
+  );
+
+  createButton(
+    "我想不起來",
+    memoryWrong1
+  );
+}
+
+
+function memoryWrong1() {
+
+  clearButtons();
+
+  dialogue.textContent =
+    "答案錯誤。\n\n" +
+    "ERROR：記憶資料不一致。";
+
+  dialogue.classList.add("glitch");
+
+  setTimeout(function () {
+    dialogue.classList.remove("glitch");
+  }, 600);
+
+  continueButton(memoryQuestion2);
+}
+
+
+// =========================
+// 記憶問題 2
+// =========================
+
+function memoryQuestion2() {
+
+  dialogue.textContent =
+    "【記憶資料重新讀取中……】\n\n" +
+    "問題 02\n\n" +
+    "她和你是什麼關係？";
+
+  clearButtons();
+
+  createButton(
+    "普通同學",
+    memoryWrong2
+  );
+
+  createButton(
+    "朋友",
+    memoryWrong2
+  );
+
+  createButton(
+    "重要的人",
+    memoryWrong2
+  );
+
+  createButton(
+    "我不知道",
+    memoryWrong2
+  );
+}
+
+
+function memoryWrong2() {
+
+  clearButtons();
+
+  dialogue.textContent =
+    "答案無法確認。\n\n" +
+    "WARNING：部分記憶資料已損毀。\n\n" +
+    "正在嘗試強制復原……";
+
+  dialogue.classList.add("glitch");
+
+  setTimeout(function () {
+
+    dialogue.classList.remove("glitch");
+
+    showRememberButton();
+
+  }, 900);
+}
+
+
+// =========================
+// 「想起來」按鈕
+// =========================
+
+function showRememberButton() {
+
+  clearButtons();
+
+  dialogue.textContent =
+    "記憶復原失敗。\n\n" +
+    "是否進行手動恢復？";
+
+  const rememberButton =
+    document.createElement("button");
+
+  rememberButton.textContent =
+    "想起來";
+
+  rememberButton.classList.add(
+    "remember-button"
+  );
+
+  rememberButton.addEventListener(
+    "click",
+    rememberScene1
+  );
+
+  buttons.appendChild(
+    rememberButton
+  );
+}
+
+
+// =========================
+// 過去片段
+// =========================
+
+function rememberScene1() {
+
+  clearButtons();
+
+  dialogue.classList.add(
+    "memory-flash"
+  );
+
+  title.textContent =
+    "？？年前";
+
+  dialogue.textContent =
+    "夕陽落在中庭。\n\n" +
+    "同樣的樹。\n\n" +
+    "同樣的兩個人。\n\n" +
+    "只是這一次，\n" +
+    "你知道自己曾經來過這裡。";
+
+  setTimeout(function () {
+
+    dialogue.classList.remove(
+      "memory-flash"
+    );
+
+  }, 500);
+
+  continueButton(
+    rememberScene2
+  );
+}
+
+
+function rememberScene2() {
+
+  dialogue.textContent =
+    "？？？：你以後不會把我忘掉吧？\n\n" +
+    "你：怎麼可能。\n\n" +
+    "？？？：真的？\n\n" +
+    "你：真的。\n\n" +
+    "你：我答應妳。";
+
+  continueButton(
+    rememberScene3
+  );
+}
+
+
+function rememberScene3() {
+
+  dialogue.textContent =
+    "畫面突然開始扭曲。\n\n" +
+    "那句話在腦中不斷重複。\n\n" +
+    "『我答應妳。』\n\n" +
+    "『我不會忘記。』";
+
+  dialogue.classList.add("glitch");
+
+  setTimeout(function () {
+
+    dialogue.classList.remove(
+      "glitch"
+    );
+
+  }, 800);
+
+  continueButton(
+    returnToPresent
+  );
+}
+
+
+// =========================
+// 回到現在
+// =========================
+
+function returnToPresent() {
+
+  title.textContent =
+    "現在";
+
+  dialogue.textContent =
+    "你猛然回過神。\n\n" +
+    "她仍然站在你的面前。\n\n" +
+    "那個女人：……怎麼了？\n\n" +
+    "你：我剛剛……\n\n" +
+    "你的腦中，第一次清楚地浮現出那個名字。";
+
+  continueButton(
+    revealName
+  );
+}
+
+
+// =========================
+// 真名揭露
+// =========================
+
+function revealName() {
+
+  dialogue.classList.add("glitch");
+
+  dialogue.textContent =
+    "【角色資料更新】\n\n" +
+    "姓名：那個女人\n\n" +
+    "正在恢復資料……";
+
+  setTimeout(function () {
+
+    dialogue.textContent =
+      "【角色資料更新】\n\n" +
+      "姓名：■■■\n\n" +
+      "正在恢復資料……";
+
+  }, 500);
+
+
+  setTimeout(function () {
+
+    dialogue.classList.remove(
+      "glitch"
+    );
+
+    dialogue.textContent =
+      "【角色資料更新】\n\n" +
+      "姓名：" + heroineRealName + "\n\n" +
+      "資料恢復完成。";
+
+  }, 1200);
+
+
+  setTimeout(function () {
 
     continueButton(
       secretEndingFinal
     );
 
-  }
+  }, 1300);
+}
 
 
-  function secretEndingFinal() {
+// =========================
+// SECRET END FINAL
+// =========================
 
-    title.textContent =
-      "SECRET END";
+function secretEndingFinal() {
 
+  title.textContent =
+    "MEMORY RESTORED";
 
-    dialogue.textContent =
-      "【SECRET END】\n\n" +
+  dialogue.textContent =
+    "你：" + heroineRealName + "……\n\n" +
+    "她愣住了。\n\n" +
+    heroineRealName + "：……\n\n" +
+    heroineRealName + "：你想起來了？\n\n" +
+    "你沒有立刻回答。\n\n" +
+    "因為還有很多事情，\n" +
+    "你依然想不起來。\n\n" +
+    "但是至少這一次——\n\n" +
+    "你記得她的名字。";
 
-      "那個女人：沒關係。\n\n" +
-
-      "那個女人：這次換我等你想起來。\n\n" +
-
-      "【系統訊息】\n\n" +
-
-      "角色資料發生異常。\n\n" +
-
-      "姓名：■■■\n" +
-
-      "關係：無法讀取\n" +
-
-      "記憶恢復率：37%\n\n" +
-
-      "真正的故事，才剛剛開始。\n\n" +
-
-      "To be continued...";
+  continueButton(
+    secretEndingLast
+  );
+}
 
 
-    showRestart();
+function secretEndingLast() {
 
-  }
+  dialogue.textContent =
+    "【系統訊息】\n\n" +
 
+    "角色資料恢復完成。\n\n" +
 
+    "姓名：" + heroineRealName + "\n" +
+
+    "關係：■■■■\n\n" +
+
+    "記憶恢復率：82%\n\n" +
+
+    "仍有部分資料無法讀取。\n\n" +
+
+    heroineRealName +
+    "：……歡迎回來。\n\n" +
+
+    "SECRET END\n" +
+    "「忘記的人」\n\n" +
+
+    "To be continued...";
+
+  showRestart();
+}
   // =========================
   // 重新開始
   // =========================
