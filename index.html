@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>戀愛模擬器 DEMO</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Microsoft JhengHei", sans-serif;
+      background: #eee;
+    }
+
+    .game {
+      width: 100%;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .dialogue {
+      background: white;
+
+      border: 2px solid #333;
+      border-radius: 15px;
+
+      padding: 22px;
+
+      min-height: 300px;
+
+      font-size: 20px;
+      line-height: 1.7;
+
+      white-space: pre-line;
+    }
+
+    .buttons {
+      margin-top: 20px;
+
+      display: grid;
+
+      gap: 12px;
+    }
+
+    button {
+      width: 100%;
+
+      padding: 16px;
+
+      font-size: 18px;
+
+      border-radius: 12px;
+
+      border: 1px solid #555;
+
+      background: white;
+
+      cursor: pointer;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .ending {
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .secret {
+      background: #111;
+      color: white;
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+<div class="game">
+
+  <h2 id="title">
+    戀愛模擬器 DEMO
+  </h2>
+
+  <div
+    id="dialogue"
+    class="dialogue"
+  >
+放學後。
+
+你一個人走在熟悉又有些陌生的走廊上。
+  </div>
+
+
+  <div
+    id="buttons"
+    class="buttons"
+  >
+
+    <button onclick="nextDialogue()">
+      繼續 ▶
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  // =========================
+  // 遊戲資料
+  // =========================
+
+  let love = 0;
+
+  let memory = 0;
+
+  let scene = 0;
+
+
+  const heroineDisplayName =
+    "那個女人";
+
+
+  // 真名先存在程式裡
+  // Demo 不會直接顯示
+
+  const heroineRealName =
+    "真正名字";
+
+
+  // =========================
+  // 開場
+  // =========================
+
+  const dialogues = [
+
+    "放學後。\n\n你一個人走在熟悉又有些陌生的走廊上。",
+
+    "最近不知道為什麼，\n\n你總覺得有些事情想不起來。",
+
+    "但是醫生說，也許只是太累了。\n\n……大概吧。",
+
+    "突然，身後傳來一道熟悉的聲音。",
+
+    "？？？：你怎麼現在才來？",
+
+    "你轉過身。",
+
+    "明明應該認識她。\n\n可是你卻怎麼也想不起她的名字。",
+
+    "【角色資訊更新】\n\n姓名：那個女人",
+
+    "那個女人：你又在發呆？",
+
+    "你：……沒有。",
+
+    "那個女人：我還以為你已經回去了。"
+
+  ];
+
+
+  const dialogue =
+    document.getElementById("dialogue");
+
+  const buttons =
+    document.getElementById("buttons");
+
+  const title =
+    document.getElementById("title");
+
+
+  // =========================
+  // 建立按鈕
+  // =========================
+
+  function createButton(text, action) {
+
+    const button =
+      document.createElement("button");
+
+    button.textContent = text;
+
+    button.onclick = action;
+
+    buttons.appendChild(button);
+
+  }
+
+
+  function clearButtons() {
+
+    buttons.innerHTML = "";
+
+  }
+
+
+  function continueButton(action) {
+
+    clearButtons();
+
+    createButton(
+      "繼續 ▶",
+      action
+    );
+
+  }
+
+
+  // =========================
+  // 開場下一句
+  // =========================
+
+  function nextDialogue() {
+
+    scene++;
+
+    if (scene < dialogues.length) {
+
+      dialogue.textContent =
+        dialogues[scene];
+
+    }
+
+    else {
+
+      firstChoice();
+
+    }
+
+  }
+
+
+  // =========================
+  // 第一次選擇
+  // =========================
+
+  function firstChoice() {
+
+    clearButtons();
+
+    dialogue.textContent =
+      "那個女人：要一起回去嗎？";
+
+
+    createButton(
+      "好啊",
+      firstLoveChoice
+    );
+
+
+    createButton(
+      "……我們以前常一起走嗎？",
+      firstMemoryChoice
+    );
+
+  }
+
+
+  function firstLoveChoice() {
+
+    love += 10;
+
+    dialogue.textContent =
+      "你：好啊。\n\n" +
+      "那個女人：嗯，那走吧。\n\n" +
+      "她看起來似乎有些安心。";
+
+    continueButton(
+      secondScene
+    );
+
+  }
+
+
+  function firstMemoryChoice() {
+
+    memory += 1;
+
+    love += 3;
+
+    dialogue.textContent =
+      "你：……我們以前常一起走嗎？\n\n" +
+      "那個女人：……\n\n" +
+      "那個女人：你真的不記得？\n\n" +
+      "你：什麼？\n\n" +
+      "那個女人：沒什麼。走吧。";
+
+    continueButton(
+      secondScene
+    );
+
+  }
+
+
+  // =========================
+  // 第二幕
+  // =========================
+
+  function secondScene() {
+
+    dialogue.textContent =
+      "隔天中午。\n\n" +
+      "你經過學校中庭。\n\n" +
+      "一棵樹映入你的眼簾。\n\n" +
+      "你的心中突然出現一種奇怪的熟悉感。\n\n" +
+      "那個女人：怎麼了？";
+
+
+    clearButtons();
+
+
+    createButton(
+      "沒什麼，去吃東西吧",
+      secondLoveChoice
+    );
+
+
+    createButton(
+      "我是不是以前來過這裡？",
+      secondMemoryChoice
+    );
+
+  }
+
+
+  function secondLoveChoice() {
+
+    love += 10;
+
+    dialogue.textContent =
+      "你：沒什麼，去吃東西吧。\n\n" +
+      "那個女人：好啊。\n\n" +
+      "她笑了一下。";
+
+    continueButton(
+      thirdScene
+    );
+
+  }
+
+
+  function secondMemoryChoice() {
+
+    memory += 1;
+
+    love += 3;
+
+    dialogue.textContent =
+      "你：我是不是以前來過這裡？\n\n" +
+      "那個女人：……當然來過啊。\n\n" +
+      "你：我是說……和妳一起。\n\n" +
+      "那個女人：……\n\n" +
+      "那個女人：你以前很喜歡坐在這裡。";
+
+    continueButton(
+      thirdScene
+    );
+
+  }
+
+
+  // =========================
+  // 第三幕
+  // =========================
+
+  function thirdScene() {
+
+    dialogue.textContent =
+      "幾天後。\n\n" +
+      "你和她走在回家的路上。\n\n" +
+      "一名同學突然從後方跑了過來。\n\n" +
+      "同學：欸！妳不是——";
+
+    continueButton(
+      thirdScene2
+    );
+
+  }
+
+
+  function thirdScene2() {
+
+    dialogue.textContent =
+      "那個女人：走了。\n\n" +
+      "她突然拉著你離開。\n\n" +
+      "你回頭看了一眼。\n\n" +
+      "剛才那個同學似乎正用一種奇怪的眼神看著你。";
+
+    continueButton(
+      thirdChoice
+    );
+
+  }
+
+
+  // =========================
+  // 第三次選擇
+  // =========================
+
+  function thirdChoice() {
+
+    dialogue.textContent =
+      "你突然很想問她一件事。\n\n" +
+      "你要問什麼？";
+
+
+    clearButtons();
+
+
+    createButton(
+      "妳是不是喜歡我？",
+      thirdLoveChoice
+    );
+
+
+    createButton(
+      "妳到底是誰？",
+      thirdMemoryChoice
+    );
+
+  }
+
+
+  function thirdLoveChoice() {
+
+    love += 10;
+
+    dialogue.textContent =
+      "你：妳是不是喜歡我？\n\n" +
+      "那個女人：……蛤？\n\n" +
+      "她愣了幾秒。\n\n" +
+      "那個女人：你現在才問這種問題？";
+
+    continueButton(
+      showEnding
+    );
+
+  }
+
+
+  function thirdMemoryChoice() {
+
+    memory += 1;
+
+    love += 5;
+
+    dialogue.textContent =
+      "你：妳到底是誰？\n\n" +
+      "那個女人：……\n\n" +
+      "她停下腳步。\n\n" +
+      "那個女人：你終於問了。\n\n" +
+      "你：什麼意思？\n\n" +
+      "那個女人：沒什麼。\n\n" +
+      "那個女人：只是覺得……你比我想像中還慢。";
+
+    continueButton(
+      showEnding
+    );
+
+  }
+
+
+  // =========================
+  // 結局判定
+  // =========================
+
+  function showEnding() {
+
+    if (
+      love >= 10 &&
+      memory >= 3
+    ) {
+
+      secretEnding1();
+
+    }
+
+    else if (
+      love >= 20
+    ) {
+
+      goodEnding();
+
+    }
+
+    else if (
+      love >= 5
+    ) {
+
+      normalEnding();
+
+    }
+
+    else {
+
+      badEnding();
+
+    }
+
+  }
+
+
+  // =========================
+  // GOOD END
+  // =========================
+
+  function goodEnding() {
+
+    title.textContent =
+      "GOOD END";
+
+    dialogue.textContent =
+      "【GOOD END】\n\n" +
+      "放學後，她主動走到了你的旁邊。\n\n" +
+      "那個女人：今天也一起走？\n\n" +
+      "你：嗯。\n\n" +
+      "你不知道為什麼。\n\n" +
+      "但和她待在一起時，總有一種令人安心的感覺。\n\n" +
+      "或許有一天，你會想起更多事情。";
+
+    showRestart();
+
+  }
+
+
+  // =========================
+  // NORMAL END
+  // =========================
+
+  function normalEnding() {
+
+    title.textContent =
+      "NORMAL END";
+
+    dialogue.textContent =
+      "【NORMAL END】\n\n" +
+      "你和她仍然保持著普通的關係。\n\n" +
+      "某天，她的學生證從口袋掉了出來。\n\n" +
+      "你正準備低頭看時，她立刻撿了起來。\n\n" +
+      "那個女人：不准看。\n\n" +
+      "你：為什麼？\n\n" +
+      "那個女人：……秘密。\n\n" +
+      "【角色資料】\n\n" +
+      "姓名：？？？";
+
+    showRestart();
+
+  }
+
+
+  // =========================
+  // BAD END
+  // =========================
+
+  function badEnding() {
+
+    title.textContent =
+      "BAD END";
+
+    dialogue.textContent =
+      "【BAD END】\n\n" +
+      "之後，你們漸漸沒有再一起回家。\n\n" +
+      "偶爾在走廊擦肩而過時，\n" +
+      "她還是會看你一眼。\n\n" +
+      "但你始終沒有想起她的名字。\n\n" +
+      "【角色資料】\n\n" +
+      "姓名：那個女人\n" +
+      "關係：？？？";
+
+    showRestart();
+
+  }
+
+
+  // =========================
+  // SECRET END
+  // =========================
+
+  function secretEnding1() {
+
+    document.body.classList.add(
+      "secret"
+    );
+
+    title.textContent =
+      "？？？ END";
+
+
+    dialogue.style.background =
+      "#111";
+
+    dialogue.style.color =
+      "white";
+
+    dialogue.style.borderColor =
+      "white";
+
+
+    dialogue.textContent =
+      "【？？？ END】\n\n" +
+      "那天晚上。\n\n" +
+      "你做了一個夢。\n\n" +
+      "夢裡，有人在叫你的名字。\n\n" +
+      "還有一個女孩站在那棵熟悉的樹下。";
+
+
+    continueButton(
+      secretEnding2
+    );
+
+  }
+
+
+  function secretEnding2() {
+
+    dialogue.textContent =
+      "？？？：你答應過我的。\n\n" +
+      "你：……什麼？\n\n" +
+      "？？？：你說你不會忘記。\n\n" +
+      "視線突然變得模糊。";
+
+
+    continueButton(
+      secretEnding3
+    );
+
+  }
+
+
+  function secretEnding3() {
+
+    dialogue.textContent =
+      "你猛然睜開眼睛。\n\n" +
+      "腦中突然閃過一個名字。\n\n" +
+      "■■■\n\n" +
+      "……不對。\n\n" +
+      "你認識她。\n\n" +
+      "你一直都認識她。";
+
+
+    continueButton(
+      secretEnding4
+    );
+
+  }
+
+
+  function secretEnding4() {
+
+    dialogue.textContent =
+      "隔天。\n\n" +
+      "你再次見到了她。\n\n" +
+      "那個女人：早。\n\n" +
+      "你看著她，卻沒有像平常一樣回話。\n\n" +
+      "你：……";
+
+
+    continueButton(
+      secretEnding5
+    );
+
+  }
+
+
+  function secretEnding5() {
+
+    dialogue.textContent =
+      "你幾乎就要叫出那個名字。\n\n" +
+      "但最後一瞬間，記憶再次模糊。\n\n" +
+      "那個女人：……還是想不起來嗎？\n\n" +
+      "你：妳知道？\n\n" +
+      "她沉默了很久。";
+
+
+    continueButton(
+      secretEndingFinal
+    );
+
+  }
+
+
+  function secretEndingFinal() {
+
+    title.textContent =
+      "SECRET END";
+
+
+    dialogue.textContent =
+      "【SECRET END】\n\n" +
+      "那個女人：沒關係。\n\n" +
+      "那個女人：這次換我等你想起來。\n\n" +
+
+      "【系統訊息】\n\n" +
+
+      "角色資料發生異常。\n\n" +
+
+      "姓名：■■■\n" +
+      "關係：無法讀取\n" +
+      "記憶恢復率：37%\n\n" +
+
+      "真正的故事，才剛剛開始。\n\n" +
+
+      "To be continued...";
+
+
+    showRestart();
+
+  }
+
+
+  // =========================
+  // 重新開始
+  // =========================
+
+  function showRestart() {
+
+    clearButtons();
+
+    createButton(
+      "重新開始 ↻",
+      restartGame
+    );
+
+  }
+
+
+  function restartGame() {
+
+    love = 0;
+
+    memory = 0;
+
+    scene = 0;
+
+
+    title.textContent =
+      "戀愛模擬器 DEMO";
+
+
+    document.body.classList.remove(
+      "secret"
+    );
+
+
+    dialogue.style.background =
+      "white";
+
+    dialogue.style.color =
+      "black";
+
+    dialogue.style.borderColor =
+      "#333";
+
+
+    dialogue.textContent =
+      dialogues[0];
+
+
+    clearButtons();
+
+
+    createButton(
+      "繼續 ▶",
+      nextDialogue
+    );
+
+  }
+
+</script>
+
+</body>
+
+</html>
