@@ -481,9 +481,7 @@
       "那個女人：好啊。\n\n" +
       "她笑了一下。";
 
-    continueButton(
-      thirdScene
-    );
+    continueButton(dailyScene);
 
   }
 
@@ -501,9 +499,7 @@
       "那個女人：……\n\n" +
       "那個女人：你以前很喜歡坐在這裡。";
 
-    continueButton(
-      thirdScene
-    );
+    continueButton(dailyScene);
 
   }
 
@@ -518,13 +514,156 @@
       "她很快移開了視線。\n\n" +
       "這次，她沒有等你。";
 
-    continueButton(
-      thirdScene
-    );
+    continueButton(dailyScene);
 
   }
 
+// =========================
+// 日常事件：福利社
+// =========================
 
+function dailyScene() {
+
+  dialogue.textContent =
+    "中午。\n\n" +
+    "你和那個女人一起走進福利社。\n\n" +
+    "那個女人：你要吃什麼？\n\n" +
+    "你：還沒想好。\n\n" +
+    "那個女人：那幫我拿一個巧克力麵包。\n\n" +
+    "你：為什麼是我？\n\n" +
+    "那個女人：因為我懶。\n\n" +
+    "你：……妳還真理直氣壯。";
+
+  continueButton(dailyScene2);
+}
+
+
+function dailyScene2() {
+
+  dialogue.textContent =
+    "你：那飲料呢？\n\n" +
+    "那個女人：老樣子。\n\n" +
+    "你：老樣子是什麼？\n\n" +
+    "那個女人：……\n\n" +
+    "她突然停了一下。\n\n" +
+    "那個女人：奶茶。\n\n" +
+    "你：早說嘛。\n\n" +
+    "那個女人：是你自己忘記的欸。\n\n" +
+    "你：？";
+
+  continueButton(dailyChoice);
+}
+
+
+function dailyChoice() {
+
+  dialogue.textContent =
+    "你站在飲料櫃前。\n\n" +
+    "要幫她拿什麼？";
+
+  clearButtons();
+
+  createButton(
+    "幫她拿奶茶",
+    dailyLoveChoice
+  );
+
+  createButton(
+    "故意拿無糖茶",
+    dailyFunnyChoice
+  );
+
+  createButton(
+    "問她：我以前都記得？",
+    dailyMemoryChoice
+  );
+
+  createButton(
+    "叫她自己拿",
+    dailyBadChoice
+  );
+}
+
+
+function dailyLoveChoice() {
+
+  love += 5;
+
+  dialogue.textContent =
+    "你拿了一瓶奶茶遞給她。\n\n" +
+    "那個女人：謝啦。\n\n" +
+    "她接過去時，看起來心情很好。\n\n" +
+    "你：就一瓶飲料而已。\n\n" +
+    "那個女人：你懂什麼。";
+
+  continueButton(dailyAfter);
+}
+
+
+function dailyFunnyChoice() {
+
+  love += 2;
+
+  dialogue.textContent =
+    "你故意拿了一瓶無糖茶給她。\n\n" +
+    "那個女人：……\n\n" +
+    "你：怎麼了？\n\n" +
+    "那個女人：你是不是故意的？\n\n" +
+    "你：怎麼可能。\n\n" +
+    "那個女人：看著我的眼睛再說一次。\n\n" +
+    "你：……\n\n" +
+    "那個女人：拿去換。";
+
+  continueButton(dailyAfter);
+}
+
+
+function dailyMemoryChoice() {
+
+  memory += 1;
+  love += 2;
+
+  dialogue.textContent =
+    "你：……我以前都記得妳喝什麼？\n\n" +
+    "那個女人：……\n\n" +
+    "她沉默了一下。\n\n" +
+    "那個女人：以前的你，記得很多沒必要記的事情。\n\n" +
+    "你：例如？\n\n" +
+    "那個女人：不告訴你。";
+
+  continueButton(dailyAfter);
+}
+
+
+function dailyBadChoice() {
+
+  love -= 5;
+
+  dialogue.textContent =
+    "你：妳自己拿啦。\n\n" +
+    "那個女人：……喔。\n\n" +
+    "她轉身自己去拿飲料。\n\n" +
+    "不知道為什麼，氣氛突然安靜了不少。";
+
+  continueButton(dailyAfter);
+}
+
+
+function dailyAfter() {
+
+  dialogue.textContent =
+    "你們找了位置坐下。\n\n" +
+    "你正準備拆開吸管時，\n" +
+    "那個女人突然把你手上的吸管拿走。\n\n" +
+    "你：？\n\n" +
+    "那個女人：你又拿錯了。\n\n" +
+    "她把另一支吸管遞給你。\n\n" +
+    "你下意識接過。\n\n" +
+    "……\n\n" +
+    "為什麼她連這種事情都知道？";
+
+  continueButton(thirdScene);
+}
   // =========================
   // 第三幕
   // =========================
@@ -660,40 +799,23 @@
 
   function showEnding() {
 
-    // 最優先判定隱藏結局
-
-    if (
-      love >= 10 &&
-      memory >= 3
-    ) {
-
-      secretEnding1();
-
-    }
-
-    else if (
-      love >= 20
-    ) {
-
-      goodEnding();
-
-    }
-
-    else if (
-      love >= 5
-    ) {
-
-      normalEnding();
-
-    }
-
-    else {
-
-      badEnding();
-
-    }
-
+  if (memory >= 4) {
+    secretEnding1();
   }
+
+  else if (love >= 25) {
+    goodEnding();
+  }
+
+  else if (love < 5) {
+    badEnding();
+  }
+
+  else {
+    normalEnding();
+  }
+
+}
 
 
   // =========================
