@@ -523,6 +523,66 @@ body {
   padding-bottom:
     calc(100px + env(safe-area-inset-bottom));
 }
+.restore-mode {
+  animation: restoreFlash 0.18s linear infinite alternate;
+}
+
+@keyframes restoreFlash {
+  from {
+    filter: brightness(1);
+  }
+
+  to {
+    filter: brightness(1.18);
+  }
+}
+
+.restore-glitch {
+  animation: restoreGlitch 0.12s linear 8;
+}
+
+@keyframes restoreGlitch {
+  0% {
+    transform: translate(0);
+  }
+
+  25% {
+    transform: translate(-3px, 1px);
+  }
+
+  50% {
+    transform: translate(3px, -1px);
+  }
+
+  75% {
+    transform: translate(-2px, -1px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
+
+.restore-error {
+  animation: errorFlash 0.15s linear 5;
+}
+
+@keyframes errorFlash {
+  0% {
+    background: #111;
+    color: white;
+  }
+
+  50% {
+    background: #7a0000;
+    color: white;
+  }
+
+  100% {
+    background: #111;
+    color: white;
+  }
+}
   </style>
 
 </head>
@@ -2275,19 +2335,45 @@ function showDiaryPage() {
     diaryEntries.length;
 
 
+  const prevButton =
+    document.getElementById("diary-prev");
+
+  const nextButton =
+    document.getElementById("diary-next");
+
+
   // 第一頁不能往前
-  document.getElementById(
-    "diary-prev"
-  ).disabled =
+  prevButton.disabled =
     currentDiaryPage === 0;
 
 
-  // 最後一頁不能往後
-  document.getElementById(
-    "diary-next"
-  ).disabled =
+  // 最後一頁：下一頁改成嘗試恢復
+  if (
     currentDiaryPage ===
-    diaryEntries.length - 1;
+    diaryEntries.length - 1
+  ) {
+
+    nextButton.disabled = false;
+
+    nextButton.textContent =
+      "嘗試恢復";
+
+    nextButton.onclick =
+      restoreDiaryData;
+
+  }
+
+  // 其他頁：正常下一頁
+  else {
+
+    nextButton.disabled = false;
+
+    nextButton.textContent =
+      "下一頁 ▶";
+
+    nextButton.onclick =
+      nextDiaryPage;
+  }
 }
 function nextDiaryPage() {
 
@@ -2319,6 +2405,37 @@ function closeDiary() {
 
   panel.classList.remove("show");
 }
+function restoreDiaryData() {
+
+  // 關掉日記
+  closeDiary();
+
+  clearButtons();
+
+  title.textContent =
+    "SYSTEM";
+
+  typeText(
+    "正在恢復缺失資料……\n\n" +
+    "31%\n\n" +
+    "54%\n\n" +
+    "82%\n\n" +
+    "……\n\n" +
+    "ERROR\n\n" +
+    "未授權存取。\n\n" +
+    "正在終止連線……",
+    35,
+    function () {
+
+      setTimeout(function () {
+
+        kickToTitle();
+
+      }, 1500);
+
+    }
+  );
+}
 function startGame() {
 
   const titleScreen =
@@ -2347,7 +2464,121 @@ function startGame() {
 
   }, 500);
 }
+function restoreDiaryData() {
 
+  // 日記立刻消失
+  const diaryPanel =
+    document.getElementById("diary-panel");
+
+  diaryPanel.classList.remove("show");
+
+  clearButtons();
+
+  title.textContent = "SYSTEM";
+
+  document.body.classList.add(
+    "restore-mode"
+  );
+
+  dialogue.classList.add(
+    "restore-glitch"
+  );
+
+  typeText(
+    "正在恢復缺失資料……"
+  );
+
+
+  setTimeout(function () {
+
+    dialogue.textContent =
+      "正在恢復缺失資料……\n\n31%";
+
+  }, 900);
+
+
+  setTimeout(function () {
+
+    dialogue.textContent =
+      "正在恢復缺失資料……\n\n54%";
+
+  }, 1600);
+
+
+  setTimeout(function () {
+
+    dialogue.textContent =
+      "正在恢復缺失資料……\n\n82%";
+
+    dialogue.classList.add(
+      "restore-error"
+    );
+
+  }, 2300);
+
+
+  setTimeout(function () {
+
+    dialogue.textContent =
+      "ERROR\n\n" +
+      "未授權存取。";
+
+  }, 3000);
+
+
+  setTimeout(function () {
+
+    dialogue.textContent =
+      "ERROR\n\n" +
+      "未授權存取。\n\n" +
+      "正在終止連線……";
+
+  }, 3700);
+
+
+  setTimeout(function () {
+
+    document.body.classList.remove(
+      "restore-mode"
+    );
+
+    dialogue.classList.remove(
+      "restore-glitch"
+    );
+
+    dialogue.classList.remove(
+      "restore-error"
+    );
+
+    kickToTitle();
+
+  }, 5200);
+}
+function kickToTitle() {
+
+  // 關閉日記
+  const diaryPanel =
+    document.getElementById("diary-panel");
+
+  if (diaryPanel) {
+    diaryPanel.classList.remove("show");
+  }
+
+  // 隱藏遊戲
+  const game =
+    document.querySelector(".game");
+
+  if (game) {
+    game.style.display = "none";
+  }
+
+  // 顯示封面
+  const titleScreen =
+    document.getElementById("title-screen");
+
+  titleScreen.style.display = "flex";
+  titleScreen.style.opacity = "1";
+}
 function confirmResetData() {
 
   const confirmed = confirm(
