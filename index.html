@@ -18,34 +18,33 @@
 .hidden-trigger {
   position: fixed;
 
-  right: max(18px, env(safe-area-inset-right));
-  bottom: calc(70px + env(safe-area-inset-bottom));
+  right: 20px;
+
+  bottom: calc(
+    90px + env(safe-area-inset-bottom)
+  );
 
   width: 44px;
   height: 44px;
 
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
-  background: rgba(0, 0, 0, 0.15);
+  padding: 0;
+
+  background: rgba(0, 0, 0, 0.08);
   border: none;
   border-radius: 50%;
 
-  color: white;
   font-size: 22px;
+  color: #333;
 
-  opacity: 0.35;
+  opacity: 0.3;
+
+  z-index: 9000;
+
   cursor: pointer;
-
-  z-index: 9999;
-
-  -webkit-tap-highlight-color: transparent;
-}
-
-.hidden-trigger:hover,
-.hidden-trigger:active {
-  opacity: 0.8;
 }
 .title-overlay {
   text-align: center;
@@ -332,20 +331,33 @@
       color: white;
     }
     .title-screen {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100dvh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      rgba(20, 20, 30, 0.25),
+      rgba(20, 20, 30, 0.55)
+    ),
+    url("images/title.png");
+
+  background-size: cover;
+  background-position: center;
+
+  z-index: 10000;
+
   transition: opacity 0.5s ease;
-}
-.reset-data-button {
-  display: block;
-  margin: 18px auto 0;
-
-  background: transparent;
-  border: none;
-
-  color: white;
-  opacity: 0.45;
-
-  font-size: 12px;
-  cursor: pointer;
 }
 
 .reset-data-button:hover {
