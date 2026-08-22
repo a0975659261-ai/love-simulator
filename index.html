@@ -2312,28 +2312,21 @@ function openDiary() {
 
   showDiaryPage();
 }
+
+
 function showDiaryPage() {
 
   const entry =
     diaryEntries[currentDiaryPage];
 
-  document.getElementById(
-    "diary-date"
-  ).textContent =
-    entry.date;
+  const date =
+    document.getElementById("diary-date");
 
-  document.getElementById(
-    "diary-text"
-  ).textContent =
-    entry.text;
+  const text =
+    document.getElementById("diary-text");
 
-  document.getElementById(
-    "diary-page-number"
-  ).textContent =
-    (currentDiaryPage + 1) +
-    " / " +
-    diaryEntries.length;
-
+  const pageNumber =
+    document.getElementById("diary-page-number");
 
   const prevButton =
     document.getElementById("diary-prev");
@@ -2342,62 +2335,76 @@ function showDiaryPage() {
     document.getElementById("diary-next");
 
 
+  date.textContent =
+    entry.date;
+
+  text.textContent =
+    entry.text;
+
+  pageNumber.textContent =
+    (currentDiaryPage + 1) +
+    " / " +
+    diaryEntries.length;
+
+
   // 第一頁不能往前
   prevButton.disabled =
     currentDiaryPage === 0;
 
 
-  // 最後一頁：下一頁改成嘗試恢復
+  // 下一顆永遠保持可以按
+  nextButton.disabled = false;
+
+
+  // 最後一頁改成「嘗試恢復」
   if (
     currentDiaryPage ===
     diaryEntries.length - 1
   ) {
 
-    nextButton.disabled = false;
-
     nextButton.textContent =
       "嘗試恢復";
 
-    nextButton.onclick =
-      restoreDiaryData;
-
-  }
-
-  // 其他頁：正常下一頁
-  else {
-
-    nextButton.disabled = false;
+  } else {
 
     nextButton.textContent =
       "下一頁 ▶";
-
-    nextButton.onclick =
-      nextDiaryPage;
   }
 }
+
+
 function nextDiaryPage() {
 
+  // 最後一頁
   if (
-    currentDiaryPage <
+    currentDiaryPage ===
     diaryEntries.length - 1
   ) {
 
-    currentDiaryPage++;
+    restoreDiaryData();
 
-    showDiaryPage();
+    return;
   }
+
+  // 正常翻頁
+  currentDiaryPage++;
+
+  showDiaryPage();
 }
 
 
 function previousDiaryPage() {
 
-  if (currentDiaryPage > 0) {
-
-    currentDiaryPage--;
-
-    showDiaryPage();
+  if (currentDiaryPage <= 0) {
+    return;
   }
+
+  currentDiaryPage--;
+
+  showDiaryPage();
 }
+
+
 function closeDiary() {
 
   const panel =
@@ -2405,76 +2412,46 @@ function closeDiary() {
 
   panel.classList.remove("show");
 }
+
+
 function restoreDiaryData() {
 
-  // 關掉日記
+  // =========================
+  // 強制停止舊的打字動畫
+  // 不執行原本 callback
+  // =========================
+
+  if (typingTimer !== null) {
+    clearInterval(typingTimer);
+    typingTimer = null;
+  }
+
+  typing = false;
+  typingComplete = null;
+  fullText = "";
+
+
+  // =========================
+  // 關閉日記
+  // =========================
+
   closeDiary();
 
   clearButtons();
 
-  title.textContent =
-    "SYSTEM";
 
-  typeText(
-    "正在恢復缺失資料……\n\n" +
-    "31%\n\n" +
-    "54%\n\n" +
-    "82%\n\n" +
-    "……\n\n" +
-    "ERROR\n\n" +
-    "未授權存取。\n\n" +
-    "正在終止連線……",
-    35,
-    function () {
+  // =========================
+  // 清空上一段劇情
+  // =========================
 
-      setTimeout(function () {
-
-        kickToTitle();
-
-      }, 1500);
-
-    }
-  );
-}
-function startGame() {
-
-  const titleScreen =
-    document.getElementById("title-screen");
-
-  const game =
-    document.querySelector(".game");
-
-  titleScreen.style.opacity = "0";
-
-  setTimeout(function () {
-
-    titleScreen.style.display = "none";
-
-    // 顯示遊戲本體
-    game.style.display = "block";
-
-    // 二周目才顯示問號
-    if (secondPlaythrough) {
-      showHiddenTrigger();
-    }
-
-    // 正式開始第一句
-    scene = 0;
-    typeText(dialogues[0]);
-
-  }, 500);
-}
-function restoreDiaryData() {
-
-  // 日記立刻消失
-  const diaryPanel =
-    document.getElementById("diary-panel");
-
-  diaryPanel.classList.remove("show");
-
-  clearButtons();
+  dialogue.textContent = "";
 
   title.textContent = "SYSTEM";
+
+
+  // =========================
+  // 恢復特效
+  // =========================
 
   document.body.classList.add(
     "restore-mode"
@@ -2484,9 +2461,13 @@ function restoreDiaryData() {
     "restore-glitch"
   );
 
-  typeText(
-    "正在恢復缺失資料……"
-  );
+
+  setTimeout(function () {
+
+    dialogue.textContent =
+      "正在恢復缺失資料……";
+
+  }, 300);
 
 
   setTimeout(function () {
@@ -2494,7 +2475,7 @@ function restoreDiaryData() {
     dialogue.textContent =
       "正在恢復缺失資料……\n\n31%";
 
-  }, 900);
+  }, 1000);
 
 
   setTimeout(function () {
@@ -2502,7 +2483,7 @@ function restoreDiaryData() {
     dialogue.textContent =
       "正在恢復缺失資料……\n\n54%";
 
-  }, 1600);
+  }, 1800);
 
 
   setTimeout(function () {
@@ -2510,20 +2491,20 @@ function restoreDiaryData() {
     dialogue.textContent =
       "正在恢復缺失資料……\n\n82%";
 
-    dialogue.classList.add(
-      "restore-error"
-    );
-
-  }, 2300);
+  }, 2600);
 
 
   setTimeout(function () {
+
+    dialogue.classList.add(
+      "restore-error"
+    );
 
     dialogue.textContent =
       "ERROR\n\n" +
       "未授權存取。";
 
-  }, 3000);
+  }, 3400);
 
 
   setTimeout(function () {
@@ -2533,7 +2514,7 @@ function restoreDiaryData() {
       "未授權存取。\n\n" +
       "正在終止連線……";
 
-  }, 3700);
+  }, 4200);
 
 
   setTimeout(function () {
@@ -2552,11 +2533,71 @@ function restoreDiaryData() {
 
     kickToTitle();
 
-  }, 5200);
+  }, 5700);
 }
+function startGame() {
+
+  const titleScreen =
+    document.getElementById("title-screen");
+
+  const game =
+    document.querySelector(".game");
+
+  // 先停止任何殘留打字
+  if (typingTimer !== null) {
+    clearInterval(typingTimer);
+    typingTimer = null;
+  }
+
+  typing = false;
+  typingComplete = null;
+  fullText = "";
+
+  titleScreen.style.opacity = "0";
+
+  setTimeout(function () {
+
+    titleScreen.style.display = "none";
+
+    game.style.display = "block";
+
+    // 清乾淨舊狀態
+    clearButtons();
+
+    title.textContent =
+      "戀愛模擬器 DEMO";
+
+    dialogue.textContent = "";
+
+    scene = 0;
+
+    // 二周目才有問號
+    if (secondPlaythrough) {
+      showHiddenTrigger();
+    }
+
+    typeText(dialogues[0]);
+
+    createButton(
+      "繼續 ▶",
+      nextDialogue
+    );
+
+  }, 500);
+}
+
 function kickToTitle() {
 
-  // 關閉日記
+  // 強制停止目前打字
+  if (typingTimer !== null) {
+    clearInterval(typingTimer);
+    typingTimer = null;
+  }
+
+  typing = false;
+  typingComplete = null;
+  fullText = "";
+
   const diaryPanel =
     document.getElementById("diary-panel");
 
@@ -2564,7 +2605,6 @@ function kickToTitle() {
     diaryPanel.classList.remove("show");
   }
 
-  // 隱藏遊戲
   const game =
     document.querySelector(".game");
 
@@ -2572,7 +2612,6 @@ function kickToTitle() {
     game.style.display = "none";
   }
 
-  // 顯示封面
   const titleScreen =
     document.getElementById("title-screen");
 
