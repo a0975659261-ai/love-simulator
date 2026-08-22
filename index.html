@@ -17,38 +17,36 @@
     }
 .hidden-trigger {
   position: fixed;
-  right: 15px;
-  bottom: 15px;
 
-  background: transparent;
-  border: none;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: calc(70px + env(safe-area-inset-bottom));
 
-  font-size: 18px;
-  opacity: 0.18;
-
-  cursor: pointer;
-}
-.title-screen {
-  position: fixed;
-  inset: 0;
+  width: 44px;
+  height: 44px;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  background:
-    linear-gradient(
-      rgba(20, 20, 30, 0.25),
-      rgba(20, 20, 30, 0.55)
-    ),
-    url("images/title.png");
+  background: rgba(0, 0, 0, 0.15);
+  border: none;
+  border-radius: 50%;
 
-  background-size: cover;
-  background-position: center;
+  color: white;
+  font-size: 22px;
 
-  z-index: 2000;
+  opacity: 0.35;
+  cursor: pointer;
+
+  z-index: 9999;
+
+  -webkit-tap-highlight-color: transparent;
 }
 
+.hidden-trigger:hover,
+.hidden-trigger:active {
+  opacity: 0.8;
+}
 .title-overlay {
   text-align: center;
   color: white;
