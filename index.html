@@ -80,24 +80,52 @@
   opacity: 0.9;
 }
 
-.start-button {
-  min-width: 180px;
+.start-button,
+.reset-data-button {
+  display: block;
 
-  padding: 13px 35px;
+  width: 280px;
+  max-width: 80vw;
 
-  font-size: 18px;
-  letter-spacing: 5px;
+  margin-left: auto;
+  margin-right: auto;
+
+  padding: 14px 30px;
 
   background: rgba(255, 255, 255, 0.12);
   color: white;
 
   border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+
+  font-size: 16px;
+  letter-spacing: 4px;
 
   cursor: pointer;
 
   transition: 0.25s;
 }
 
+
+/* START 與下面按鈕拉開 */
+.start-button {
+  margin-bottom: 28px;
+}
+
+
+/* 清除資料與版本號拉開 */
+.reset-data-button {
+  opacity: 0.65;
+  margin-bottom: 35px;
+}
+
+
+.start-button:hover,
+.reset-data-button:hover {
+  background: rgba(255, 255, 255, 0.28);
+
+  transform: translateY(-2px);
+}
 .start-button:hover {
   background: rgba(255, 255, 255, 0.3);
 
@@ -268,12 +296,14 @@
       transition: 0.4s;
     }
 
-    .game {
-      width: 100%;
-      max-width: 600px;
-      margin: auto;
-      padding: 20px;
-    }
+   .game {
+  display: none;
+
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+}
 
     h2 {
       text-align: center;
@@ -450,9 +480,17 @@
     transform: translateY(0);
   }
 }
+body {
+  margin: 0;
+  min-height: 100dvh;
+
+  padding-bottom:
+    calc(100px + env(safe-area-inset-bottom));
+}
   </style>
 
 </head>
+
 <div id="title-screen" class="title-screen">
 
   <div class="title-overlay">
@@ -478,6 +516,7 @@
 <button
   id="reset-data-button"
   class="reset-data-button"
+  type="button"
   onclick="confirmResetData()">
   清除遊戲資料
 </button>
@@ -2227,31 +2266,50 @@ function startGame() {
   const titleScreen =
     document.getElementById("title-screen");
 
+  const game =
+    document.querySelector(".game");
+
   titleScreen.style.opacity = "0";
 
   setTimeout(function () {
 
     titleScreen.style.display = "none";
 
-    // 開始第一幕
-    showScene();
+    // 顯示遊戲本體
+    game.style.display = "block";
+
+    // 二周目才顯示問號
+    if (secondPlaythrough) {
+      showHiddenTrigger();
+    }
+
+    // 正式開始第一句
+    scene = 0;
+    typeText(dialogues[0]);
 
   }, 500);
 }
+
 function confirmResetData() {
 
   const confirmed = confirm(
-    "確定要清除周目資料並回到一周目嗎？"
+    "確定要清除遊戲資料並回到一周目嗎？"
   );
 
-  if (confirmed) {
-    resetPlaythrough();
+  if (!confirmed) {
+    return;
   }
+
+  resetPlaythrough();
 }
+
+
 function resetPlaythrough() {
 
+  // 清除二周目紀錄
   localStorage.removeItem("secretCleared");
 
+  // 清除目前遊戲狀態
   secondPlaythrough = false;
   secretEndingClearedThisRun = false;
 
@@ -2259,8 +2317,10 @@ function resetPlaythrough() {
   memory = 0;
   scene = 0;
 
-  location.reload();
+  // 重新整理
+  window.location.reload();
 }
+
   // =========================
   // 重新開始
   // =========================
@@ -2362,7 +2422,6 @@ secretEndingClearedThisRun = false;
     );
 
   }
-typeText(dialogues[0]);
 
 </script>
 
