@@ -15,7 +15,255 @@
     * {
       box-sizing: border-box;
     }
+.hidden-trigger {
+  position: fixed;
+  right: 15px;
+  bottom: 15px;
 
+  background: transparent;
+  border: none;
+
+  font-size: 18px;
+  opacity: 0.18;
+
+  cursor: pointer;
+}
+.title-screen {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background:
+    linear-gradient(
+      rgba(20, 20, 30, 0.25),
+      rgba(20, 20, 30, 0.55)
+    ),
+    url("images/title.png");
+
+  background-size: cover;
+  background-position: center;
+
+  z-index: 2000;
+}
+
+.title-overlay {
+  text-align: center;
+  color: white;
+
+  text-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.game-title {
+  margin: 0;
+
+  font-size: clamp(42px, 8vw, 80px);
+  letter-spacing: 8px;
+}
+
+.game-subtitle {
+  margin-top: 5px;
+
+  font-size: 18px;
+  letter-spacing: 10px;
+
+  opacity: 0.8;
+}
+
+.title-message {
+  margin-top: 50px;
+  margin-bottom: 35px;
+
+  font-size: 18px;
+  letter-spacing: 3px;
+
+  opacity: 0.9;
+}
+
+.start-button {
+  min-width: 180px;
+
+  padding: 13px 35px;
+
+  font-size: 18px;
+  letter-spacing: 5px;
+
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+
+  border: 1px solid rgba(255, 255, 255, 0.8);
+
+  cursor: pointer;
+
+  transition: 0.25s;
+}
+
+.start-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+
+  transform: translateY(-2px);
+}
+
+.game-version {
+  margin-top: 35px;
+
+  font-size: 12px;
+  opacity: 0.45;
+}
+.diary-panel {
+  display: none;
+
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.88);
+
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1100;
+}
+
+.diary-panel.show {
+  display: flex;
+}
+
+
+.diary-book {
+  width: min(520px, 85vw);
+  min-height: 500px;
+
+  padding: 35px;
+
+  background: #f3ead7;
+  color: #302a24;
+
+  border-radius: 4px;
+
+  box-shadow:
+    0 0 30px rgba(0, 0, 0, 0.7);
+
+  position: relative;
+}
+
+.diary-header {
+  text-align: center;
+
+  font-size: 24px;
+  font-weight: bold;
+
+  letter-spacing: 4px;
+
+  margin-bottom: 25px;
+}
+
+.diary-date {
+  font-size: 17px;
+
+  margin-bottom: 25px;
+
+  border-bottom: 1px solid #9b8e7b;
+
+  padding-bottom: 8px;
+}
+
+.diary-text {
+  white-space: pre-line;
+
+  font-size: 17px;
+  line-height: 2;
+
+  min-height: 300px;
+}
+
+.diary-controls {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 25px;
+}
+
+.diary-controls button,
+.diary-close {
+  padding: 8px 15px;
+
+  cursor: pointer;
+}
+
+.diary-close {
+  display: block;
+
+  margin: 25px auto 0;
+}
+.hidden-trigger:hover {
+  opacity: 0.7;
+}
+
+
+.hidden-name-panel {
+  display: none;
+
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.85);
+
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1000;
+}
+ 
+.hidden-name-panel.show {
+  display: flex;
+}
+
+
+.hidden-name-box {
+  width: 320px;
+
+  background: #111;
+  color: white;
+
+  border: 1px solid #777;
+
+  padding: 25px;
+
+  text-align: center;
+}
+
+
+.hidden-name-title {
+  margin-bottom: 20px;
+  letter-spacing: 3px;
+}
+
+
+#hidden-name-input {
+  width: 85%;
+
+  padding: 8px;
+
+  background: #050505;
+  color: white;
+
+  border: 1px solid #777;
+
+  text-align: center;
+
+  margin-bottom: 15px;
+}
+
+
+#hidden-name-message {
+  margin-top: 15px;
+  min-height: 24px;
+}
     body {
       margin: 0;
       font-family: "Microsoft JhengHei", sans-serif;
@@ -85,6 +333,26 @@
       background: #111;
       color: white;
     }
+    .title-screen {
+  transition: opacity 0.5s ease;
+}
+.reset-data-button {
+  display: block;
+  margin: 18px auto 0;
+
+  background: transparent;
+  border: none;
+
+  color: white;
+  opacity: 0.45;
+
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.reset-data-button:hover {
+  opacity: 0.9;
+}
 /* =========================
    SECRET END 特效
 ========================= */
@@ -151,10 +419,133 @@
   border: 2px solid white;
   font-weight: bold;
 }
+.choice-button {
+  opacity: 0;
+  transform: translateY(8px);
+
+  animation-name: choiceFadeIn;
+  animation-duration: 0.35s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+}
+
+@keyframes choiceFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
   </style>
 
 </head>
+<div id="title-screen" class="title-screen">
 
+  <div class="title-overlay">
+
+    <h1 class="game-title">
+      戀愛模擬器
+    </h1>
+
+    <div class="game-subtitle">
+      DEMO
+    </div>
+
+    <div class="title-message">
+      「你還記得我嗎？」
+    </div>
+
+    <button
+      id="start-button"
+      class="start-button"
+      onclick="startGame()">
+      START
+    </button>
+<button
+  id="reset-data-button"
+  class="reset-data-button"
+  onclick="confirmResetData()">
+  清除遊戲資料
+</button>
+    <div class="game-version">
+      ver. 0.1
+    </div>
+
+  </div>
+
+</div>
+<div id="hidden-name-panel" class="hidden-name-panel">
+  <div class="hidden-name-box">
+
+    <div class="hidden-name-title">
+      【未登錄資料】
+    </div>
+
+    <p>請輸入名稱：</p>
+
+    <input
+      id="hidden-name-input"
+      type="text"
+      autocomplete="off"
+    >
+
+    <div class="hidden-name-actions">
+      <button onclick="checkHiddenName()">
+        確認
+      </button>
+
+      <button onclick="closeHiddenNameInput()">
+        返回
+      </button>
+    </div>
+
+    <div id="hidden-name-message"></div>
+
+  </div>
+</div>
+<div id="diary-panel" class="diary-panel">
+
+  <div class="diary-book">
+
+    <div class="diary-header">
+      小椿の日記
+    </div>
+
+    <div id="diary-date" class="diary-date"></div>
+
+    <div id="diary-text" class="diary-text"></div>
+
+    <div class="diary-controls">
+
+      <button
+        id="diary-prev"
+        onclick="previousDiaryPage()">
+        ◀ 上一頁
+      </button>
+
+      <span id="diary-page-number"></span>
+
+      <button
+        id="diary-next"
+        onclick="nextDiaryPage()">
+        下一頁 ▶
+      </button>
+
+    </div>
+
+    <button
+      class="diary-close"
+      onclick="closeDiary()">
+      關閉日記
+    </button>
+
+  </div>
+
+</div>
 
 <body>
 
@@ -188,20 +579,109 @@
 
 </div>
 
-
+ 
 <script>
 
   // =========================
   // 遊戲數值
   // =========================
-
+  let typing = false;
+  let typingTimer = null;
+  let fullText = "";
   let love = 0;
 
   let memory = 0;
 
   let scene = 0;
+  let typingComplete = null;
+let secretEndingClearedThisRun = false;
+let secondPlaythrough =
+  localStorage.getItem("secretCleared") === "true";
+  let currentDiaryPage = 0;
+
+const diaryEntries = [
+
+  {
+    date: "4月17日",
+
+    text:
+      "今天又跟他一起回家。\n\n" +
+
+      "明明每次都說自己不餓，" +
+      "最後還是會把我的麵包吃掉一半。\n\n" +
+
+      "真的很煩。\n\n" +
+
+      "……\n\n" +
+
+      "不過如果明天他沒有來，" +
+      "我大概還是會覺得有點奇怪。"
+  },
 
 
+  {
+    date: "5月3日",
+
+    text:
+      "他今天又忘記帶東西。\n\n" +
+
+      "我跟他說：\n" +
+      "「你遲早有一天連我都會忘記吧。」\n\n" +
+
+      "他居然還笑我想太多。\n\n" +
+
+      "……\n\n" +
+
+      "不知道為什麼，" +
+      "我後來一直記得這句話。"
+  },
+
+
+  {
+    date: "6月21日",
+
+    text:
+      "最近他很奇怪。\n\n" +
+
+      "不是平常那種奇怪。\n\n" +
+
+      "有時候他會突然停下來，" +
+      "看著一個明明來過很多次的地方。\n\n" +
+
+      "然後問我：\n\n" +
+
+      "「我們以前有來過這裡嗎？」\n\n" +
+
+      "我不知道該怎麼回答。\n\n" +
+
+      "如果我說有……\n\n" +
+
+      "他會想起來嗎？"
+  },
+
+
+  {
+    date: "■■ / ■■",
+
+    text:
+      "今天……\n\n" +
+
+      "■■■■■■■■■■\n\n" +
+
+      "我不知道事情為什麼會變成這樣。\n\n" +
+
+      "■■■■■■■■■■■■\n\n" +
+
+      "如果有一天你真的忘了我，\n\n" +
+
+      "至少……\n\n" +
+
+      "■■■■■■\n\n" +
+
+      "不要再找下去了。"
+  }
+
+];
   // =========================
   // 角色資料
   // =========================
@@ -266,7 +746,63 @@
   // =========================
   // 按鈕工具
   // =========================
+ function typeText(text, speed = 35, onComplete = null) {
 
+  if (typingTimer) {
+    clearInterval(typingTimer);
+  }
+
+  fullText = text;
+  typingComplete = onComplete;
+
+  dialogue.textContent = "";
+
+  let index = 0;
+  typing = true;
+
+  typingTimer = setInterval(function () {
+
+    dialogue.textContent += text[index];
+    index++;
+
+    if (index >= text.length) {
+
+      clearInterval(typingTimer);
+
+      typingTimer = null;
+      typing = false;
+
+      const callback = typingComplete;
+      typingComplete = null;
+
+      if (callback) {
+        callback();
+      }
+    }
+
+  }, speed);
+}
+function finishTyping() {
+
+  if (!typing) {
+    return false;
+  }
+
+  clearInterval(typingTimer);
+  typingTimer = null;
+
+  dialogue.textContent = fullText;
+  typing = false;
+
+  const callback = typingComplete;
+  typingComplete = null;
+
+  if (callback) {
+    callback();
+  }
+
+  return true;
+}
   function clearButtons() {
 
     buttons.innerHTML = "";
@@ -296,19 +832,36 @@
 
   }
 
+function createChoiceButton(text, action, delay = 0) {
 
-  function continueButton(
-    action
-  ) {
+  const button = document.createElement("button");
 
-    clearButtons();
+  button.textContent = text;
+  button.classList.add("choice-button");
+  button.style.animationDelay = delay + "ms";
 
-    createButton(
-      "繼續 ▶",
-      action
-    );
+  button.addEventListener("click", function () {
+    action();
+  });
 
-  }
+  buttons.appendChild(button);
+}
+function continueButton(action) {
+
+  clearButtons();
+
+  createButton(
+    "繼續 ▶",
+    function () {
+
+      if (finishTyping()) {
+        return;
+      }
+
+      action();
+    }
+  );
+}
 
 
   // =========================
@@ -323,8 +876,8 @@
       scene < dialogues.length
     ) {
 
-      dialogue.textContent =
-        dialogues[scene];
+      typeText(
+        dialogues[scene]);
 
     }
 
@@ -337,11 +890,19 @@
   }
 
 
-  startButton.addEventListener(
-    "click",
-    nextDialogue
-  );
+startButton.addEventListener(
+  "click",
+  function () {
 
+    // 還在跑字 → 先顯示全文
+    if (finishTyping()) {
+      return;
+    }
+
+    // 已經跑完 → 下一句
+    nextDialogue();
+  }
+);
 
   // =========================
   // 第一次選擇
@@ -349,43 +910,101 @@
 
   function firstChoice() {
 
-    dialogue.textContent =
-      "那個女人：要一起回去嗎？";
+  clearButtons();
+
+  typeText(
+    "那個女人：要一起回去嗎？",
+    35,
+    function () {
+
+      // 二周目
+      if (secondPlaythrough) {
+
+        showSecondPlaythroughFlash();
+
+      }
+
+      // 一周目
+      else {
+
+        showNormalFirstChoices();
+
+      }
+    }
+  );
+}
+function showNormalFirstChoices() {
+
+  clearButtons();
+
+  createChoiceButton(
+    "好啊",
+    firstLoveChoice,
+    0
+  );
+
+  createChoiceButton(
+    "……我們以前常一起走嗎？",
+    firstMemoryChoice,
+    100
+  );
+
+  createChoiceButton(
+    "不了，我想自己回去",
+    firstBadChoice,
+    200
+  );
+}
+function showSecondPlaythroughFlash() {
+
+  clearButtons();
+
+  createChoiceButton(
+    "好啊",
+    firstLoveChoice,
+    0
+  );
+
+  createChoiceButton(
+    "小椿，我們回去吧",
+    function () {},
+    100
+  );
+
+  createChoiceButton(
+    "不了，我想自己回去",
+    firstBadChoice,
+    200
+  );
+
+  // 0.6 秒後異常選項消失
+  setTimeout(function () {
 
     clearButtons();
 
-
-    // 戀愛路線
-    createButton(
+    createChoiceButton(
       "好啊",
-      firstLoveChoice
+      firstLoveChoice,
+      0
     );
 
-
-    // 記憶路線
-    createButton(
-      "……我們以前常一起走嗎？",
-      firstMemoryChoice
-    );
-
-
-    // 壞結局路線
-    createButton(
+    createChoiceButton(
       "不了，我想自己回去",
-      firstBadChoice
+      firstBadChoice,
+      100
     );
 
-  }
-
+  }, 600);
+}
 
   function firstLoveChoice() {
 
     love += 10;
 
-    dialogue.textContent =
+    typeText(
       "你：好啊。\n\n" +
       "那個女人：嗯，那走吧。\n\n" +
-      "她看起來似乎有些安心。";
+      "她看起來似乎有些安心。");
 
     continueButton(
       secondScene
@@ -400,12 +1019,12 @@
 
     memory += 1;
 
-    dialogue.textContent =
+    typeText(
       "你：……我們以前常一起走嗎？\n\n" +
       "那個女人：……\n\n" +
       "那個女人：你真的不記得？\n\n" +
       "你：什麼？\n\n" +
-      "那個女人：沒什麼。走吧。";
+      "那個女人：沒什麼。走吧。");
 
     continueButton(
       secondScene
@@ -418,12 +1037,12 @@
 
     love -= 8;
 
-    dialogue.textContent =
+   typeText (
       "你：不了，我想自己回去。\n\n" +
       "那個女人：……這樣啊。\n\n" +
       "她沒有再說什麼。\n\n" +
       "你不知道為什麼，\n" +
-      "總覺得她的表情有些失落。";
+      "總覺得她的表情有些失落。");
 
     continueButton(
       secondScene
@@ -436,95 +1055,92 @@
   // 第二幕
   // =========================
 
-  function secondScene() {
+function secondScene() {
 
-    dialogue.textContent =
-      "隔天中午。\n\n" +
-      "你經過學校中庭。\n\n" +
-      "一棵樹映入你的眼簾。\n\n" +
-      "你的心中突然出現一種奇怪的熟悉感。\n\n" +
-      "那個女人：怎麼了？";
+  clearButtons();
 
+  typeText(
+    "隔天中午。\n\n" +
+    "你經過學校中庭。\n\n" +
+    "一棵樹映入你的眼簾。\n\n" +
+    "你的心中突然出現一種奇怪的熟悉感。\n\n" +
+    "那個女人：怎麼了？",
+    35,
+    function () {
 
-    clearButtons();
+      clearButtons();
 
+      createChoiceButton(
+        "沒什麼，去吃東西吧",
+        secondLoveChoice,
+        0
+      );
 
-    // 戀愛路線
-    createButton(
-      "沒什麼，去吃東西吧",
-      secondLoveChoice
-    );
+      if (!secondPlaythrough) {
 
+  createChoiceButton(
+    "我是不是以前來過這裡？",
+    secondMemoryChoice,
+    100
+  );
 
-    // 記憶路線
-    createButton(
-      "我是不是以前來過這裡？",
-      secondMemoryChoice
-    );
+}
 
+      createChoiceButton(
+        "沒事，我想一個人待著",
+        secondBadChoice,
+        200
+      );
+    }
+  );
+}
+ function secondLoveChoice() {
 
-    // 冷淡路線
-    createButton(
-      "沒事，我想一個人待著",
-      secondBadChoice
-    );
+  love += 10;
 
-  }
+  typeText(
+    "你：沒什麼，去吃東西吧。\n\n" +
+    "那個女人：好啊。\n\n" +
+    "她笑了一下。"
+  );
 
+  continueButton(dailyScene);
+}
+ function secondMemoryChoice() {
 
-  function secondLoveChoice() {
+  love += 3;
+  memory += 1;
 
-    love += 10;
+  typeText(
+    "你：我是不是以前來過這裡？\n\n" +
+    "那個女人：……當然來過啊。\n\n" +
+    "你：我是說……和妳一起。\n\n" +
+    "那個女人：……\n\n" +
+    "那個女人：你以前很喜歡坐在這裡。"
+  );
 
-    dialogue.textContent =
-      "你：沒什麼，去吃東西吧。\n\n" +
-      "那個女人：好啊。\n\n" +
-      "她笑了一下。";
+  continueButton(dailyScene);
+}
+function secondBadChoice() {
 
-    continueButton(dailyScene);
+  love -= 8;
 
-  }
+  typeText(
+    "你：沒事，我想一個人待著。\n\n" +
+    "那個女人：……好。\n\n" +
+    "她很快移開了視線。\n\n" +
+    "這次，她沒有等你。"
+  );
 
-
-  function secondMemoryChoice() {
-
-    love += 3;
-
-    memory += 1;
-
-    dialogue.textContent =
-      "你：我是不是以前來過這裡？\n\n" +
-      "那個女人：……當然來過啊。\n\n" +
-      "你：我是說……和妳一起。\n\n" +
-      "那個女人：……\n\n" +
-      "那個女人：你以前很喜歡坐在這裡。";
-
-    continueButton(dailyScene);
-
-  }
-
-
-  function secondBadChoice() {
-
-    love -= 8;
-
-    dialogue.textContent =
-      "你：沒事，我想一個人待著。\n\n" +
-      "那個女人：……好。\n\n" +
-      "她很快移開了視線。\n\n" +
-      "這次，她沒有等你。";
-
-    continueButton(dailyScene);
-
-  }
+  continueButton(dailyScene);
+}
 
 // =========================
 // 日常事件：福利社
 // =========================
-
 function dailyScene() {
 
-  dialogue.textContent =
+  typeText(
     "中午。\n\n" +
     "你和那個女人一起走進福利社。\n\n" +
     "那個女人：你要吃什麼？\n\n" +
@@ -532,7 +1148,8 @@ function dailyScene() {
     "那個女人：那幫我拿一個巧克力麵包。\n\n" +
     "你：為什麼是我？\n\n" +
     "那個女人：因為我懶。\n\n" +
-    "你：……妳還真理直氣壯。";
+    "你：……妳還真理直氣壯。"
+  );
 
   continueButton(dailyScene2);
 }
@@ -540,7 +1157,7 @@ function dailyScene() {
 
 function dailyScene2() {
 
-  dialogue.textContent =
+  typeText(
     "你：那飲料呢？\n\n" +
     "那個女人：老樣子。\n\n" +
     "你：老樣子是什麼？\n\n" +
@@ -549,52 +1166,59 @@ function dailyScene2() {
     "那個女人：奶茶。\n\n" +
     "你：早說嘛。\n\n" +
     "那個女人：是你自己忘記的欸。\n\n" +
-    "你：？";
+    "你：？"
+  );
 
   continueButton(dailyChoice);
 }
-
-
 function dailyChoice() {
-
-  dialogue.textContent =
-    "你站在飲料櫃前。\n\n" +
-    "要幫她拿什麼？";
 
   clearButtons();
 
-  createButton(
-    "幫她拿奶茶",
-    dailyLoveChoice
-  );
+  typeText(
+    "你站在飲料櫃前。\n\n" +
+    "要幫她拿什麼？",
+    35,
+    function () {
 
-  createButton(
-    "故意拿無糖茶",
-    dailyFunnyChoice
-  );
+      createChoiceButton(
+        "幫她拿奶茶",
+        dailyLoveChoice,
+        0
+      );
 
-  createButton(
-    "問她：我以前都記得？",
-    dailyMemoryChoice
-  );
+      createChoiceButton(
+        "故意拿無糖茶",
+        dailyFunnyChoice,
+        100
+      );
+if (!secondPlaythrough) {
+      createChoiceButton(
+        "問她：我以前都記得？",
+        dailyMemoryChoice,
+        200
+      );
+}
+      createChoiceButton(
+        "叫她自己拿",
+        dailyBadChoice,
+        300
+      );
 
-  createButton(
-    "叫她自己拿",
-    dailyBadChoice
+    }
   );
 }
-
 
 function dailyLoveChoice() {
 
   love += 5;
 
-  dialogue.textContent =
+  typeText(
     "你拿了一瓶奶茶遞給她。\n\n" +
     "那個女人：謝啦。\n\n" +
     "她接過去時，看起來心情很好。\n\n" +
     "你：就一瓶飲料而已。\n\n" +
-    "那個女人：你懂什麼。";
+    "那個女人：你懂什麼。");
 
   continueButton(dailyAfter);
 }
@@ -604,7 +1228,7 @@ function dailyFunnyChoice() {
 
   love += 2;
 
-  dialogue.textContent =
+  typeText(
     "你故意拿了一瓶無糖茶給她。\n\n" +
     "那個女人：……\n\n" +
     "你：怎麼了？\n\n" +
@@ -612,7 +1236,7 @@ function dailyFunnyChoice() {
     "你：怎麼可能。\n\n" +
     "那個女人：看著我的眼睛再說一次。\n\n" +
     "你：……\n\n" +
-    "那個女人：拿去換。";
+    "那個女人：拿去換。");
 
   continueButton(dailyAfter);
 }
@@ -623,13 +1247,13 @@ function dailyMemoryChoice() {
   memory += 1;
   love += 2;
 
-  dialogue.textContent =
+  typeText(
     "你：……我以前都記得妳喝什麼？\n\n" +
     "那個女人：……\n\n" +
     "她沉默了一下。\n\n" +
     "那個女人：以前的你，記得很多沒必要記的事情。\n\n" +
     "你：例如？\n\n" +
-    "那個女人：不告訴你。";
+    "那個女人：不告訴你。");
 
   continueButton(dailyAfter);
 }
@@ -639,11 +1263,11 @@ function dailyBadChoice() {
 
   love -= 5;
 
-  dialogue.textContent =
+  typeText(
     "你：妳自己拿啦。\n\n" +
     "那個女人：……喔。\n\n" +
     "她轉身自己去拿飲料。\n\n" +
-    "不知道為什麼，氣氛突然安靜了不少。";
+    "不知道為什麼，氣氛突然安靜了不少。");
 
   continueButton(dailyAfter);
 }
@@ -651,16 +1275,19 @@ function dailyBadChoice() {
 
 function dailyAfter() {
 
-  dialogue.textContent =
+  typeText(
     "你們找了位置坐下。\n\n" +
-    "你正準備拆開吸管時，\n" +
-    "那個女人突然把你手上的吸管拿走。\n\n" +
-    "你：？\n\n" +
-    "那個女人：你又拿錯了。\n\n" +
-    "她把另一支吸管遞給你。\n\n" +
-    "你下意識接過。\n\n" +
-    "……\n\n" +
-    "為什麼她連這種事情都知道？";
+    "你剛拆開麵包，\n" +
+    "她突然看了一眼你的午餐。\n\n" +
+    "那個女人：你不是不吃這個嗎？\n\n" +
+    "你：……？\n\n" +
+    "那個女人：這個啊。\n\n" +
+    "她指了指裡面的配料。\n\n" +
+    "你低頭看了一眼。\n\n" +
+    "奇怪。\n\n" +
+    "你自己都還沒反應過來，\n" +
+    "她怎麼會記得？");
+
 
   continueButton(thirdScene);
 }
@@ -670,11 +1297,11 @@ function dailyAfter() {
 
   function thirdScene() {
 
-    dialogue.textContent =
+    typeText(
       "幾天後。\n\n" +
       "你和她走在回家的路上。\n\n" +
       "一名同學突然從後方跑了過來。\n\n" +
-      "同學：欸！妳不是——";
+      "同學：欸！妳不是——");
 
     continueButton(
       thirdScene2
@@ -685,11 +1312,11 @@ function dailyAfter() {
 
   function thirdScene2() {
 
-    dialogue.textContent =
+    typeText(
       "那個女人：走了。\n\n" +
       "她突然拉著你離開。\n\n" +
       "你回頭看了一眼。\n\n" +
-      "剛才那個同學似乎正用一種奇怪的眼神看著你。";
+      "剛才那個同學似乎正用一種奇怪的眼神看著你。");
 
     continueButton(
       thirdChoice
@@ -704,46 +1331,44 @@ function dailyAfter() {
 
   function thirdChoice() {
 
-    dialogue.textContent =
-      "你突然很想問她一件事。\n\n" +
-      "你要問什麼？";
+  clearButtons();
 
+  typeText(
+    "你突然很想問她一件事。\n\n" +
+    "你要問什麼？",
+    35,
+    function () {
 
-    clearButtons();
+      createChoiceButton(
+        "妳是不是喜歡我？",
+        thirdLoveChoice,
+        0
+      );
+if (!secondPlaythrough) {
+      createChoiceButton(
+        "妳到底是誰？",
+        thirdMemoryChoice,
+        100
+      );
+}
+      createChoiceButton(
+        "……算了，我不想知道",
+        thirdBadChoice,
+        200
+      );
 
-
-    // 戀愛路線
-    createButton(
-      "妳是不是喜歡我？",
-      thirdLoveChoice
-    );
-
-
-    // 記憶路線
-    createButton(
-      "妳到底是誰？",
-      thirdMemoryChoice
-    );
-
-
-    // 冷淡路線
-    createButton(
-      "……算了，我不想知道",
-      thirdBadChoice
-    );
-
-  }
-
-
+    }
+  );
+}
   function thirdLoveChoice() {
 
     love += 10;
 
-    dialogue.textContent =
+    typeText(
       "你：妳是不是喜歡我？\n\n" +
       "那個女人：……蛤？\n\n" +
       "她愣了幾秒。\n\n" +
-      "那個女人：你現在才問這種問題？";
+      "那個女人：你現在才問這種問題？");
 
     continueButton(
       showEnding
@@ -758,14 +1383,14 @@ function dailyAfter() {
 
     memory += 1;
 
-    dialogue.textContent =
+    typeText(
       "你：妳到底是誰？\n\n" +
       "那個女人：……\n\n" +
       "她停下腳步。\n\n" +
       "那個女人：你終於問了。\n\n" +
       "你：什麼意思？\n\n" +
       "那個女人：沒什麼。\n\n" +
-      "那個女人：只是覺得……你比我想像中還慢。";
+      "那個女人：只是覺得……你比我想像中還慢。");
 
     continueButton(
       showEnding
@@ -778,21 +1403,140 @@ function dailyAfter() {
 
     love -= 8;
 
-    dialogue.textContent =
+    typeText(
       "你：……算了，我不想知道。\n\n" +
       "那個女人：……\n\n" +
       "她沉默了一會。\n\n" +
       "那個女人：我知道了。\n\n" +
       "那天之後，\n" +
-      "她似乎真的不再主動提起任何過去。";
+      "她似乎真的不再主動提起任何過去。");
 
     continueButton(
       showEnding
     );
 
   }
+function showHiddenTrigger() {
+
+  // 只有二周目可以出現
+  if (!secondPlaythrough) {
+    return;
+  }
+
+  // 防止重複建立
+  if (document.getElementById("hidden-trigger")) {
+    return;
+  }
+
+  const hiddenButton =
+    document.createElement("button");
+
+  hiddenButton.id = "hidden-trigger";
+  hiddenButton.classList.add("hidden-trigger");
+
+  hiddenButton.textContent = "？";
+
+  hiddenButton.addEventListener(
+    "click",
+    showHiddenNameInput
+  );
+
+  document.body.appendChild(hiddenButton);
+}
+function showHiddenNameInput() {
+
+  const panel =
+    document.getElementById("hidden-name-panel");
+
+  const input =
+    document.getElementById("hidden-name-input");
+
+  const message =
+    document.getElementById("hidden-name-message");
+
+  message.textContent = "";
+  input.value = "";
+
+  panel.classList.add("show");
+
+  input.focus();
+}
+function closeHiddenNameInput() {
+
+  const panel =
+    document.getElementById("hidden-name-panel");
+
+  panel.classList.remove("show");
+}
+function checkHiddenName() {
+
+  const input =
+    document.getElementById("hidden-name-input");
+
+  const message =
+    document.getElementById("hidden-name-message");
+
+  const name =
+    input.value.trim();
+
+  if (name === "") {
+
+    message.textContent =
+      "請輸入資料。";
+
+    return;
+  }
 
 
+  if (name === heroineRealName) {
+
+    message.textContent =
+      "……";
+
+    setTimeout(function () {
+
+      message.textContent =
+        "ERROR：此資料不應存在。";
+
+    }, 700);
+
+    setTimeout(function () {
+
+      closeHiddenNameInput();
+
+      foundTsubakiDiary();
+
+    }, 1800);
+
+  }
+
+  else {
+
+    message.textContent =
+      "查無資料。";
+
+  }
+}
+function foundTsubakiDiary() {
+
+  clearButtons();
+
+  title.textContent =
+    "UNKNOWN FILE";
+
+  typeText(
+    "偵測到未登錄資料。\n\n" +
+    "FILE：TSUBAKI_DIARY\n\n" +
+    "資料狀態：部分損毀\n\n" +
+    "……\n\n" +
+    "是否讀取？"
+  );
+
+  createButton(
+  "讀取",
+  openDiary
+);
+}
   // =========================
   // 結局判定
   // =========================
@@ -828,7 +1572,7 @@ function dailyAfter() {
       "GOOD END";
 
 
-    dialogue.textContent =
+    typeText(
       "【GOOD END】\n\n" +
 
       "放學後，她主動走到了你的旁邊。\n\n" +
@@ -849,7 +1593,7 @@ function dailyAfter() {
       "她只是笑了笑。\n\n" +
 
       "或許有一天，\n" +
-      "你會想起更多事情。";
+      "你會想起更多事情。");
 
 
     showRestart();
@@ -867,7 +1611,7 @@ function dailyAfter() {
       "NORMAL END";
 
 
-    dialogue.textContent =
+    typeText(
       "【NORMAL END】\n\n" +
 
       "你和她仍然保持著普通的關係。\n\n" +
@@ -886,7 +1630,7 @@ function dailyAfter() {
       "【角色資料】\n\n" +
 
       "姓名：？？？\n" +
-      "關係：朋友？";
+      "關係：朋友？");
 
 
     showRestart();
@@ -904,7 +1648,7 @@ function dailyAfter() {
       "BAD END";
 
 
-    dialogue.textContent =
+    typeText(
       "【BAD END】\n\n" +
 
       "從那天之後，\n" +
@@ -938,7 +1682,7 @@ function dailyAfter() {
 
       "姓名：那個女人\n" +
 
-      "關係：已失去";
+      "關係：已失去");
 
 
     showRestart();
@@ -946,120 +1690,10 @@ function dailyAfter() {
   }
 
 
-  // =========================
-  // SECRET END
-  // =========================
-
-  function secretEnding1() {
-
-    document.body.classList.add(
-      "secret-mode"
-    );
-
-
-    title.textContent =
-      "？？？ END";
-
-
-    dialogue.style.background =
-      "#111";
-
-    dialogue.style.color =
-      "white";
-
-    dialogue.style.borderColor =
-      "white";
-
-
-    dialogue.textContent =
-      "【？？？ END】\n\n" +
-
-      "那天晚上。\n\n" +
-
-      "你做了一個夢。\n\n" +
-
-      "夢裡，\n" +
-      "有人在叫你的名字。\n\n" +
-
-      "還有一個女孩，\n" +
-      "站在那棵熟悉的樹下。";
-
-
-    continueButton(
-      secretEnding2
-    );
-
-  }
-
-
-  function secretEnding2() {
-
-    dialogue.textContent =
-      "？？？：你答應過我的。\n\n" +
-
-      "你：……什麼？\n\n" +
-
-      "？？？：你說你不會忘記。\n\n" +
-
-      "視線突然變得模糊。";
-
-
-    continueButton(
-      secretEnding3
-    );
-
-  }
-
-
-  function secretEnding3() {
-
-    dialogue.textContent =
-      "你猛然睜開眼睛。\n\n" +
-
-      "腦中突然閃過一個名字。\n\n" +
-
-      "■■■\n\n" +
-
-      "……不對。\n\n" +
-
-      "你認識她。\n\n" +
-
-      "你一直都認識她。";
-
-
-    continueButton(
-      secretEnding4
-    );
-
-  }
-
-
-  function secretEnding4() {
-
-    dialogue.textContent =
-      "隔天。\n\n" +
-
-      "你再次見到了她。\n\n" +
-
-      "那個女人：早。\n\n" +
-
-      "你看著她，\n" +
-      "卻沒有像平常一樣回話。\n\n" +
-
-      "你：……";
-
-
-    continueButton(
-      secretEnding5
-    );
-
-  }
-
 
   // =========================
 // SECRET END
 // =========================
-
 function secretEnding1() {
 
   document.body.classList.add("secret-mode");
@@ -1070,13 +1704,14 @@ function secretEnding1() {
   dialogue.style.color = "white";
   dialogue.style.borderColor = "white";
 
-  dialogue.textContent =
+  typeText(
     "隔天放學後。\n\n" +
     "你來到了學校中庭。\n\n" +
     "那棵樹就在眼前。\n\n" +
     "奇怪的是——\n\n" +
     "明明沒有人告訴你地點，\n" +
-    "你卻知道她說的「那個地方」就是這裡。";
+    "你卻知道她說的「那個地方」就是這裡。"
+  );
 
   continueButton(secretEnding2);
 }
@@ -1084,26 +1719,28 @@ function secretEnding1() {
 
 function secretEnding2() {
 
-  dialogue.textContent =
+  typeText(
     "腳步聲從身後傳來。\n\n" +
     "那個女人：你真的來了。\n\n" +
     "你：……嗯。\n\n" +
-    "那個女人：所以你還記得這裡。";
+    "那個女人：所以你還記得這裡。"
+  );
 
   continueButton(secretEnding3);
 }
 
 
 // =========================
-// 第一次姓名異常
+// 姓名異常
 // =========================
 
 function secretEnding3() {
 
-  dialogue.textContent =
+  typeText(
     "你：我不知道。\n\n" +
     "那個女人：……\n\n" +
-    "那個女人：那你還記得——";
+    "那個女人：那你還記得——"
+  );
 
   dialogue.classList.add("glitch");
 
@@ -1111,10 +1748,11 @@ function secretEnding3() {
 
     dialogue.classList.remove("glitch");
 
-    dialogue.textContent =
+    typeText(
       "你：我不知道。\n\n" +
       "■■■：……\n\n" +
-      "■■■：那你還記得——";
+      "■■■：那你還記得——"
+    );
 
   }, 600);
 
@@ -1124,60 +1762,64 @@ function secretEnding3() {
 
 function secretEnding4() {
 
-  dialogue.textContent =
+  typeText(
     "■■■：我們第一次在這裡說了什麼嗎？\n\n" +
     "你看著她。\n\n" +
     "腦中似乎有什麼東西一閃而過。\n\n" +
-    "但是你抓不住。";
+    "但是你抓不住。"
+  );
 
   continueButton(memoryQuestion1);
 }
 
 
-// =========================
-// 記憶問題 1
-// =========================
-
 function memoryQuestion1() {
 
   title.textContent = "MEMORY CHECK";
 
-  dialogue.textContent =
-    "【記憶資料讀取中……】\n\n" +
-    "問題 01\n\n" +
-    "她叫什麼名字？";
-
   clearButtons();
 
-  createButton(
-    "那個女人",
-    memoryWrong1
-  );
+  typeText(
+    "【記憶資料讀取中……】\n\n" +
+    "問題 01\n\n" +
+    "她叫什麼名字？",
+    35,
+    function () {
 
-  createButton(
-    "？？？",
-    memoryWrong1
-  );
+      createChoiceButton(
+        "那個女人",
+        memoryWrong1,
+        0
+      );
 
-  createButton(
-    "■■■",
-    memoryWrong1
-  );
+      createChoiceButton(
+        "？？？",
+        memoryWrong1,
+        100
+      );
 
-  createButton(
-    "我想不起來",
-    memoryWrong1
+      createChoiceButton(
+        "■■■",
+        memoryWrong1,
+        200
+      );
+
+      createChoiceButton(
+        "我想不起來",
+        memoryWrong1,
+        300
+      );
+    }
   );
 }
 
 
 function memoryWrong1() {
 
-  clearButtons();
-
-  dialogue.textContent =
+  typeText(
     "答案錯誤。\n\n" +
-    "ERROR：記憶資料不一致。";
+    "ERROR：記憶資料不一致。"
+  );
 
   dialogue.classList.add("glitch");
 
@@ -1189,49 +1831,62 @@ function memoryWrong1() {
 }
 
 
+
+
+
 // =========================
 // 記憶問題 2
 // =========================
 
 function memoryQuestion2() {
 
-  dialogue.textContent =
-    "【記憶資料重新讀取中……】\n\n" +
-    "問題 02\n\n" +
-    "她和你是什麼關係？";
-
   clearButtons();
 
-  createButton(
-    "普通同學",
-    memoryWrong2
-  );
+  typeText(
+    "【記憶資料重新讀取中……】\n\n" +
+    "問題 02\n\n" +
+    "她和你是什麼關係？",
+    35,
+    function () {
 
-  createButton(
-    "朋友",
-    memoryWrong2
-  );
+      createChoiceButton(
+        "普通同學",
+        memoryWrong2,
+        0
+      );
 
-  createButton(
-    "重要的人",
-    memoryWrong2
-  );
+      createChoiceButton(
+        "朋友",
+        memoryWrong2,
+        100
+      );
 
-  createButton(
-    "我不知道",
-    memoryWrong2
+      createChoiceButton(
+        "重要的人",
+        memoryWrong2,
+        200
+      );
+
+      createChoiceButton(
+        "我不知道",
+        memoryWrong2,
+        300
+      );
+    }
   );
 }
+
+
 
 
 function memoryWrong2() {
 
   clearButtons();
 
-  dialogue.textContent =
+  typeText(
     "答案無法確認。\n\n" +
     "WARNING：部分記憶資料已損毀。\n\n" +
-    "正在嘗試強制復原……";
+    "正在嘗試強制復原……");
 
   dialogue.classList.add("glitch");
 
@@ -1253,9 +1908,9 @@ function showRememberButton() {
 
   clearButtons();
 
-  dialogue.textContent =
+  typeText(
     "記憶復原失敗。\n\n" +
-    "是否進行手動恢復？";
+    "是否進行手動恢復？");
 
   const rememberButton =
     document.createElement("button");
@@ -1293,12 +1948,12 @@ function rememberScene1() {
   title.textContent =
     "？？年前";
 
-  dialogue.textContent =
+  typeText(
     "夕陽落在中庭。\n\n" +
     "同樣的樹。\n\n" +
     "同樣的兩個人。\n\n" +
     "只是這一次，\n" +
-    "你知道自己曾經來過這裡。";
+    "你知道自己曾經來過這裡。");
 
   setTimeout(function () {
 
@@ -1316,12 +1971,12 @@ function rememberScene1() {
 
 function rememberScene2() {
 
-  dialogue.textContent =
+  typeText(
     "？？？：你以後不會把我忘掉吧？\n\n" +
     "你：怎麼可能。\n\n" +
     "？？？：真的？\n\n" +
     "你：真的。\n\n" +
-    "你：我答應妳。";
+    "你：我答應妳。");
 
   continueButton(
     rememberScene3
@@ -1331,11 +1986,11 @@ function rememberScene2() {
 
 function rememberScene3() {
 
-  dialogue.textContent =
+  typeText(
     "畫面突然開始扭曲。\n\n" +
     "那句話在腦中不斷重複。\n\n" +
     "『我答應妳。』\n\n" +
-    "『我不會忘記。』";
+    "『我不會忘記。』");
 
   dialogue.classList.add("glitch");
 
@@ -1362,12 +2017,12 @@ function returnToPresent() {
   title.textContent =
     "現在";
 
-  dialogue.textContent =
+  typeText(
     "你猛然回過神。\n\n" +
     "她仍然站在你的面前。\n\n" +
     "那個女人：……怎麼了？\n\n" +
     "你：我剛剛……\n\n" +
-    "你的腦中，第一次清楚地浮現出那個名字。";
+    "你的腦中，第一次清楚地浮現出那個名字。");
 
   continueButton(
     revealName
@@ -1383,17 +2038,17 @@ function revealName() {
 
   dialogue.classList.add("glitch");
 
-  dialogue.textContent =
+  typeText(
     "【角色資料更新】\n\n" +
     "姓名：那個女人\n\n" +
-    "正在恢復資料……";
+    "正在恢復資料……");
 
   setTimeout(function () {
 
-    dialogue.textContent =
+    typeText(
       "【角色資料更新】\n\n" +
       "姓名：■■■\n\n" +
-      "正在恢復資料……";
+      "正在恢復資料……");
 
   }, 500);
 
@@ -1404,10 +2059,10 @@ function revealName() {
       "glitch"
     );
 
-    dialogue.textContent =
+    typeText(
       "【角色資料更新】\n\n" +
       "姓名：" + heroineRealName + "\n\n" +
-      "資料恢復完成。";
+      "資料恢復完成。");
 
   }, 1200);
 
@@ -1431,7 +2086,7 @@ function secretEndingFinal() {
   title.textContent =
     "MEMORY RESTORED";
 
-  dialogue.textContent =
+  typeText(
     "你：" + heroineRealName + "……\n\n" +
     "她愣住了。\n\n" +
     heroineRealName + "：……\n\n" +
@@ -1440,7 +2095,7 @@ function secretEndingFinal() {
     "因為還有很多事情，\n" +
     "你依然想不起來。\n\n" +
     "但是至少這一次——\n\n" +
-    "你記得她的名字。";
+    "你記得她的名字。");
 
   continueButton(
     secretEndingLast
@@ -1449,8 +2104,10 @@ function secretEndingFinal() {
 
 
 function secretEndingLast() {
-
-  dialogue.textContent =
+  secretEndingClearedThisRun = true;
+localStorage.setItem("secretCleared", "true");
+secondPlaythrough = true;
+  typeText(
     "【系統訊息】\n\n" +
 
     "角色資料恢復完成。\n\n" +
@@ -1469,9 +2126,130 @@ function secretEndingLast() {
     "SECRET END\n" +
     "「忘記的人」\n\n" +
 
-    "To be continued...";
+    "To be continued...");
 
   showRestart();
+}
+if (secondPlaythrough) {
+  showHiddenTrigger();
+}
+
+function openDiary() {
+
+  currentDiaryPage = 0;
+
+  const panel =
+    document.getElementById("diary-panel");
+
+  panel.classList.add("show");
+
+  showDiaryPage();
+}
+function showDiaryPage() {
+
+  const entry =
+    diaryEntries[currentDiaryPage];
+
+  document.getElementById(
+    "diary-date"
+  ).textContent =
+    entry.date;
+
+  document.getElementById(
+    "diary-text"
+  ).textContent =
+    entry.text;
+
+  document.getElementById(
+    "diary-page-number"
+  ).textContent =
+    (currentDiaryPage + 1) +
+    " / " +
+    diaryEntries.length;
+
+
+  // 第一頁不能往前
+  document.getElementById(
+    "diary-prev"
+  ).disabled =
+    currentDiaryPage === 0;
+
+
+  // 最後一頁不能往後
+  document.getElementById(
+    "diary-next"
+  ).disabled =
+    currentDiaryPage ===
+    diaryEntries.length - 1;
+}
+function nextDiaryPage() {
+
+  if (
+    currentDiaryPage <
+    diaryEntries.length - 1
+  ) {
+
+    currentDiaryPage++;
+
+    showDiaryPage();
+  }
+}
+
+
+function previousDiaryPage() {
+
+  if (currentDiaryPage > 0) {
+
+    currentDiaryPage--;
+
+    showDiaryPage();
+  }
+}
+function closeDiary() {
+
+  const panel =
+    document.getElementById("diary-panel");
+
+  panel.classList.remove("show");
+}
+function startGame() {
+
+  const titleScreen =
+    document.getElementById("title-screen");
+
+  titleScreen.style.opacity = "0";
+
+  setTimeout(function () {
+
+    titleScreen.style.display = "none";
+
+    // 開始第一幕
+    showScene();
+
+  }, 500);
+}
+function confirmResetData() {
+
+  const confirmed = confirm(
+    "確定要清除周目資料並回到一周目嗎？"
+  );
+
+  if (confirmed) {
+    resetPlaythrough();
+  }
+}
+function resetPlaythrough() {
+
+  localStorage.removeItem("secretCleared");
+
+  secondPlaythrough = false;
+  secretEndingClearedThisRun = false;
+
+  love = 0;
+  memory = 0;
+  scene = 0;
+
+  location.reload();
 }
   // =========================
   // 重新開始
@@ -1479,8 +2257,50 @@ function secretEndingLast() {
 
   function showRestart() {
 
-    clearButtons();
+  clearButtons();
 
+  // SECRET END 剛通關
+  if (secretEndingClearedThisRun) {
+
+    const restartButton =
+      document.createElement("button");
+
+    restartButton.textContent =
+      "重新開始 ↻";
+
+    restartButton.addEventListener(
+      "click",
+      restartGame
+    );
+
+    buttons.appendChild(
+      restartButton
+    );
+
+    // 一秒後文字發生異常
+    setTimeout(function () {
+
+      restartButton.textContent =
+        "再一次……？";
+
+      restartButton.classList.add(
+        "glitch"
+      );
+
+      setTimeout(function () {
+
+        restartButton.classList.remove(
+          "glitch"
+        );
+
+      }, 600);
+
+    }, 1000);
+
+  }
+
+  // 普通結局
+  else {
 
     createButton(
       "重新開始 ↻",
@@ -1488,7 +2308,7 @@ function secretEndingLast() {
     );
 
   }
-
+}
 
   function restartGame() {
 
@@ -1497,12 +2317,13 @@ function secretEndingLast() {
     memory = 0;
 
     scene = 0;
-
+secondPlaythrough =
+  localStorage.getItem("secretCleared") === "true";
 
     document.body.classList.remove(
       "secret-mode"
     );
-
+secretEndingClearedThisRun = false;
 
     title.textContent =
       "戀愛模擬器 DEMO";
@@ -1518,8 +2339,8 @@ function secretEndingLast() {
       "#333";
 
 
-    dialogue.textContent =
-      dialogues[0];
+    typeText(
+      dialogues[0]);
 
 
     clearButtons();
@@ -1531,6 +2352,7 @@ function secretEndingLast() {
     );
 
   }
+typeText(dialogues[0]);
 
 </script>
 
